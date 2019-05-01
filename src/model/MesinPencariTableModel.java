@@ -18,9 +18,11 @@ public class MesinPencariTableModel extends AbstractTableModel{
     private ArrayList<SearchingResult> searchingResults;
 
     public MesinPencariTableModel() {
+        super();
     }
 
     public MesinPencariTableModel(ArrayList<SearchingResult> searchingResults) {
+        super();
         this.searchingResults = searchingResults;
     }
     

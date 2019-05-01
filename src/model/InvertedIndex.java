@@ -5,6 +5,10 @@
  */
 package model;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -537,6 +541,21 @@ public class InvertedIndex {
         Collections.sort(searchingResults, Collections.reverseOrder());
 
         return searchingResults;
+    }
+
+    public void readDirectory(File directory) {
+        File[] fileNames = directory.listFiles();
+        int i = getDocumentSize() + 1;
+        for (File currentFile : fileNames) {
+            if (currentFile.isDirectory()) {
+                readDirectory(currentFile);
+            } else {
+                Document doc = Document.readFile(i, currentFile);
+                addNewDocument(doc);
+            }
+            i++;
+        }
+        makeDictionaryWithTermNumber();
     }
 
 }

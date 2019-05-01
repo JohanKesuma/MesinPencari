@@ -5,8 +5,15 @@
  */
 package model;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -22,7 +29,7 @@ public class Document implements Comparable<Document> {
 
     public Document(int id, String content) {
         this.id = id;
-        this.content = content;
+        setContent(content);
     }
 
     public Document(String content) {
@@ -40,7 +47,7 @@ public class Document implements Comparable<Document> {
      * @param content the content to set
      */
     public void setContent(String content) {
-        this.content = content;
+        this.content = content.replaceAll("[()?:!.,;{}]+", "");
     }
 
     public int getId() {
@@ -61,7 +68,7 @@ public class Document implements Comparable<Document> {
 
     public String[] getListofTerm() {
         String value = this.getContent().toLowerCase();
-        value = value.replaceAll("[.,?!]", "");
+//        value = value.replaceAll("[()?:!.,;{}]+", "");
         return value.split(" ");
     }
 
@@ -106,5 +113,25 @@ public class Document implements Comparable<Document> {
     @Override
     public int compareTo(Document o) {
         return Integer.compare(this.id, o.id);
+    }
+
+    public static Document readFile(int doc, File file) {
+
+        String content = "";
+        FileReader fileReader;
+        try {
+            fileReader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String str;
+            while ((str = bufferedReader.readLine()) != null) {
+                content += str;
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Document.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Document.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return new Document(doc, content);
     }
 }

@@ -222,7 +222,7 @@ public class NewDocumentDialog extends javax.swing.JDialog {
     }
     
     private boolean validateInput(){
-        if (idDocumentTextField.getText().isBlank() || contentTextArea.getText().isBlank()) {
+        if (idDocumentTextField.getText().isEmpty()|| contentTextArea.getText().isEmpty()) {
             return false;
         }
         

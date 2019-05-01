@@ -6,6 +6,9 @@
 package view;
 
 import java.util.ArrayList;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import model.Document;
 import model.InvertedIndex;
 import model.MesinPencariTableModel;
 import model.SearchingResult;
@@ -49,6 +52,10 @@ public class MainWindow extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         newDocumentMenuItem = new javax.swing.JMenuItem();
+        openFileMenuItem = new javax.swing.JMenuItem();
+        openDirectoryMenuItem = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        exitMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Mesin Pencari");
@@ -132,6 +139,31 @@ public class MainWindow extends javax.swing.JFrame {
         });
         fileMenu.add(newDocumentMenuItem);
 
+        openFileMenuItem.setText("Open File");
+        openFileMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openFileMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(openFileMenuItem);
+
+        openDirectoryMenuItem.setText("Open Directory");
+        openDirectoryMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openDirectoryMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(openDirectoryMenuItem);
+        fileMenu.add(jSeparator1);
+
+        exitMenuItem.setText("Exit");
+        exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(exitMenuItem);
+
         jMenuBar1.add(fileMenu);
 
         setJMenuBar(jMenuBar1);
@@ -162,6 +194,34 @@ public class MainWindow extends javax.swing.JFrame {
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         searchDocument();
     }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_exitMenuItemActionPerformed
+
+    private void openDirectoryMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openDirectoryMenuItemActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        
+        int ret = fileChooser.showOpenDialog(this);
+        if (ret == JFileChooser.APPROVE_OPTION) {
+            index.readDirectory(fileChooser.getSelectedFile());
+            JOptionPane.showMessageDialog(this, "Documents Opened");
+        }
+    }//GEN-LAST:event_openDirectoryMenuItemActionPerformed
+
+    private void openFileMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openFileMenuItemActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        int ret = fileChooser.showOpenDialog(this);
+        
+        if (ret == JFileChooser.APPROVE_OPTION) {
+            Document doc = Document.readFile(index.getDocumentSize() + 1, fileChooser.getSelectedFile());
+            index.addNewDocument(doc);
+            index.makeDictionaryWithTermNumber();
+            
+            JOptionPane.showMessageDialog(this, "Documents Opened");
+        }
+    }//GEN-LAST:event_openFileMenuItemActionPerformed
 
     private void searchDocument(){
         ArrayList<SearchingResult> searchingResults = index.searchCosineSimilarity(searchTextField.getText());
@@ -207,11 +267,15 @@ public class MainWindow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable documentTable;
+    private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuItem newDocumentMenuItem;
+    private javax.swing.JMenuItem openDirectoryMenuItem;
+    private javax.swing.JMenuItem openFileMenuItem;
     private javax.swing.JButton searchButton;
     private javax.swing.JLabel searchLabel;
     private javax.swing.JPanel searchPanel;
