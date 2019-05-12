@@ -40,8 +40,8 @@ public class NewDocumentDialog extends javax.swing.JDialog {
 
         mainPanel = new javax.swing.JPanel();
         idDocumentPanel = new javax.swing.JPanel();
-        idDocumentLabel = new javax.swing.JLabel();
-        idDocumentTextField = new javax.swing.JTextField();
+        titleLabel = new javax.swing.JLabel();
+        titleTextField = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         contentLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -53,7 +53,7 @@ public class NewDocumentDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("New Document");
 
-        idDocumentLabel.setText("Id Document");
+        titleLabel.setText("Title");
 
         javax.swing.GroupLayout idDocumentPanelLayout = new javax.swing.GroupLayout(idDocumentPanel);
         idDocumentPanel.setLayout(idDocumentPanelLayout);
@@ -61,9 +61,9 @@ public class NewDocumentDialog extends javax.swing.JDialog {
             idDocumentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(idDocumentPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(idDocumentLabel)
-                .addGap(18, 18, 18)
-                .addComponent(idDocumentTextField)
+                .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(titleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         idDocumentPanelLayout.setVerticalGroup(
@@ -71,8 +71,8 @@ public class NewDocumentDialog extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, idDocumentPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(idDocumentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(idDocumentLabel)
-                    .addComponent(idDocumentTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(titleLabel)
+                    .addComponent(titleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -195,16 +195,12 @@ public class NewDocumentDialog extends javax.swing.JDialog {
             return false;
         }
         
-        int idDocument;
-        try {
-            idDocument = Integer.parseInt(idDocumentTextField.getText());
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Id Document harus beruapa angka", "...", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
+        int idDocument = index.getDocumentSize() + 1;
+        String title = titleTextField.getText();
         
         String content = contentTextArea.getText();
-        Document document = new Document(idDocument, content);
+        
+        Document document = new Document(idDocument, content, title);
         if (index.addNewDocument(document)) {
             index.makeDictionaryWithTermNumber();
             showSuccessMessage();
@@ -217,12 +213,12 @@ public class NewDocumentDialog extends javax.swing.JDialog {
     }
     
     private void resetTextFields(){
-        idDocumentTextField.setText("");
+        titleTextField.setText("");
         contentTextArea.setText("");
     }
     
     private boolean validateInput(){
-        if (idDocumentTextField.getText().isEmpty()|| contentTextArea.getText().isEmpty()) {
+        if (titleTextField.getText().isEmpty()|| contentTextArea.getText().isEmpty()) {
             return false;
         }
         
@@ -235,11 +231,11 @@ public class NewDocumentDialog extends javax.swing.JDialog {
     private javax.swing.JLabel contentLabel;
     private javax.swing.JTextArea contentTextArea;
     private javax.swing.JButton createButton;
-    private javax.swing.JLabel idDocumentLabel;
     private javax.swing.JPanel idDocumentPanel;
-    private javax.swing.JTextField idDocumentTextField;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JLabel titleLabel;
+    private javax.swing.JTextField titleTextField;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,10 +5,7 @@
  */
 package model;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -474,9 +471,11 @@ public class InvertedIndex {
 
         // hitung jarak
         double length = getLengthOfPosting(posting) * getLengthOfPosting(posting1);
+
         if (length == 0) {
             return 0;
         }
+
         // hitung cosine similarity
         double cosineSimilarity = innerProduct / length;
 
@@ -503,8 +502,11 @@ public class InvertedIndex {
             // hitung inner product antara query dan dokumen
             double similarity = getInnerProduct(queryTFIDF, documentTFIDF);
 
-            // masukkan similarity dan dokumen yang bersangkutan ke list searchingResult
-            searchingResults.add(new SearchingResult(similarity, getDocuments().get(i)));
+            if (similarity > 0) {
+                // masukkan similarity dan dokumen yang bersangkutan ke list searchingResult
+                searchingResults.add(new SearchingResult(similarity, getDocuments().get(i)));
+            }
+
         }
 
         // urutkan searchingResults berdasar similarity terbesar
@@ -530,11 +532,13 @@ public class InvertedIndex {
             // hitung tfidf dari dokumen
             ArrayList<Posting> documentTFIDF = makeTFIDF(getDocuments().get(i).getId());
 
-            // hitung inner product antara query dan dokumen
+            // similarity
             double similarity = getCosineSimilarity(queryTFIDF, documentTFIDF);
 
-            // masukkan similarity dan dokumen yang bersangkutan ke list searchingResult
-            searchingResults.add(new SearchingResult(similarity, getDocuments().get(i)));
+            if (similarity > 0) {
+                // masukkan similarity dan dokumen yang bersangkutan ke list searchingResult
+                searchingResults.add(new SearchingResult(similarity, getDocuments().get(i)));
+            }
         }
 
         // urutkan searchingResults dari similarity yang paling besar
@@ -543,7 +547,7 @@ public class InvertedIndex {
         return searchingResults;
     }
 
-    public void readDirectory(File directory) {
+public void readDirectory(File directory) {
         File[] fileNames = directory.listFiles();
         int i = getDocumentSize() + 1;
         for (File currentFile : fileNames) {

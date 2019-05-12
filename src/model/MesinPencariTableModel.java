@@ -14,7 +14,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class MesinPencariTableModel extends AbstractTableModel{
     
-    private final String[] columnNames = {"No", "Id Doc", "Document", "Similarity"};
+    private final String[] columnNames = {"No", "Id Doc", "Title", "Similarity"};
     private ArrayList<SearchingResult> searchingResults;
 
     public MesinPencariTableModel() {
@@ -50,7 +50,7 @@ public class MesinPencariTableModel extends AbstractTableModel{
             case 1:
                 return searchingResults.get(rowIndex).getDocument().getId();
             case 2:
-                return searchingResults.get(rowIndex).getDocument().getContent();
+                return searchingResults.get(rowIndex).getDocument().getTitle();
             case 3:
                 return searchingResults.get(rowIndex).getSimilarity();
             
