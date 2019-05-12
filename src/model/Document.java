@@ -285,7 +285,8 @@ public static Document readFile(int doc, File file) {
         } catch (IOException ex) {
             Logger.getLogger(Document.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Document document = new Document(doc, content, file.getName());
+        String fileName = file.getName();
+        Document document = new Document(doc, content, fileName.substring(0, fileName.lastIndexOf(".")));
         document.indoStemming();
 
         return document;
