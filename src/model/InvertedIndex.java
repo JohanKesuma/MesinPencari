@@ -547,6 +547,12 @@ public class InvertedIndex {
         return searchingResults;
     }
 
+/**
+ * 
+ * @param directory directory yang akan dibuka, folder ada di folder Documents dalam project
+ * 
+ * 
+ */
 public void readDirectory(File directory) {
         File[] fileNames = directory.listFiles();
         int i = getDocumentSize() + 1;

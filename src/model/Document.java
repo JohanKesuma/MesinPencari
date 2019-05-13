@@ -27,9 +27,12 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.util.Version;
 
+
 /**
- *
- * @author puspaingtyas
+ * 
+ * @author johan
+ * 
+ * satu dokumen adalah satu berita
  */
 public class Document implements Comparable<Document> {
 
